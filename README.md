@@ -126,7 +126,7 @@ and third, tuning with Grid Search: in this case I use the tuning recommendation
 
 **GridSearch Parameters Recommendation :**
 
-**{'algo__n_estimators': [100, 150, 200],
+**{'algo__n_estimators': [100, 150, 200],**
 
 **'algo__max_depth': [20, 50, 80],**
 
@@ -159,4 +159,41 @@ it turns out that if we look at the Feature Importance (Mean Square Decrease) th
 And other features don't seem to have any effect. So we can cut out the features, and focus on those five features. why do we want to cut features? why don't we use all the features? because the machine has a weakness. If we provide more information, then the pattern will be more difficult to find. because the machine only looks for patterns. it's like a maze, but if we give things that are important, specific to something then it will be easier to find, generalizing and produce a better model
 
 We can't guarantee, but most of the time it can helps. it could be a better model, or it could be worst.
+
+### Model After Feature Importance
+
+Now we only select 5 features to the model after Feature Importance, and all these 5 features is categoric columns. Here's the result:
+
+![RF clas 2](https://user-images.githubusercontent.com/86812576/167062392-d11ee1f5-950d-464a-83c0-569f1029bf2b.png)
+
+the result is an increase in accuracy of about 2.5%. And with lighter computing because it uses fewer features.
+
+Actually cutting features can help, because if we give a lot of information then the machine will be confused because many features are not useful. On the other hand, if we have selected with only important information, the machine will find it easier. So it's a little funny because we cut features but the score actually increases.
+
+# RandomizedSearchCV and Try Polynomial After Feature Selection
+
+### RandomizedSearchCV
+
+we're going to continue using RandomizedSearchCV, so we're not going to use GridSearch anymore and use a different one.
+
+![image](https://user-images.githubusercontent.com/86812576/167064365-fb4a659a-6cb2-4501-ae67-c638f19b3123.png)
+
+The one on the left is GridSearch, which we combine in the form of a table and it will search one by one.
+
+for example in the case of SVM with two parameters, namely Gamma, and C (Penalty) with total 49 total trials. whereas on the other hand out of these 49 we pick maybe 10 at random, so no need to try all of them. Why is it like that? because for example a Gamma in GridSearch is bad, it will actually produce a bad model but it will still be run by GridSearch and it is not computational efficient. So we're just wasting time on a model.
+
+![GS n RS](https://user-images.githubusercontent.com/86812576/167067042-f545776f-1e41-4848-9c4f-eec9cebd239c.png)
+
+
+So why don't we take 10 at random, then we choose the best. Indeed there will be no guarantee of getting the best one, but computationally more efficient. We can even choose at intervals, meaning RandomizedSearchCV can reach areas that GridSearchCV cannot reach.
+
+For the Random Forest Algorithm which has many parameters, it is more efficient to use RandomizedSearchCV. Because we immediately give a range and limit it to a certain trial, if not then use GridSearchCV and it will be able to reach thousands of combinations.
+
+### Polynomial and RandomizedSearchCv
+
+After we get meaningful information, then we add polynomials with RandomizedSearchCV
+
+![Screenshot 2022-05-06 113707](https://user-images.githubusercontent.com/86812576/167068018-882f056f-837b-40b0-b930-8774ce19296e.png)
+
+in this model, we actually just replace **gsp** with **rsp**, and add polynomials rest is the same as the previous model. And we have **n_iter = 50** which is trials.In this model the computation is very fast and even has been added with poly. 
 
