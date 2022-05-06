@@ -197,6 +197,6 @@ After we get meaningful information, then we add polynomials with RandomizedSear
 
 in this model, we actually just replace **gsp** with **rsp**, and add polynomials rest is the same as the previous model. And we have **n_iter = 50** which is trials.In this model the computation is very fast and even has been added with poly. 
 
-# Predict
+# Prediction
 
 In the last part I want to see if the model runs well, I predict it to a data that I randomly generate myself. And it turns out that the model works fine.
